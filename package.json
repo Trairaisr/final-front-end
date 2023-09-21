@@ -1,9 +1,9 @@
 {
-  "name": "project-name",
+  "name": "travel-il",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "author": "Your Name",
+  "author": "yosiHJanashvili",
   "license": "MIT",
   "scripts": {
     "start": "vite --open",

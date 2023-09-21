@@ -14,6 +14,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "useUnknownInCatchVariables": false,
     "noFallthroughCasesInSwitch": true,
     "typeRoots": ["./src/@types", "./node_modules/@types"]
   },

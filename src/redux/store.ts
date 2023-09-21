@@ -3,9 +3,12 @@ import {
   configureStore,
   type ThunkAction,
 } from "@reduxjs/toolkit";
+import { appSlice } from "./slices/AppSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    [appSlice.name]: appSlice.reducer,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;
