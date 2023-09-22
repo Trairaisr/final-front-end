@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Grid,
-  Link,
   Paper,
   TextField,
   Typography,
@@ -12,9 +11,11 @@ import { FlightTakeoffOutlined } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useAppDispatch } from "../../redux";
 import { loginAction } from "../../redux/slices/AppSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,8 +35,14 @@ const Login = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    await dispatch(loginAction({ username, password }));
+    const { meta } = await dispatch(loginAction({ username, password }));
+
+    if (meta.requestStatus === "fulfilled") {
+      navigate("/Vacations");
+    }
   };
+
+  const goToRegister = () => navigate("/register");
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
@@ -111,9 +118,9 @@ const Login = () => {
 
             <Grid container>
               <Grid item>
-                <Link href="/Register" variant="body2">
-                  {"Click here to sign-up"}
-                </Link>
+                <Button variant="text" onClick={goToRegister}>
+                  Click here to sign-up
+                </Button>
               </Grid>
             </Grid>
           </Box>

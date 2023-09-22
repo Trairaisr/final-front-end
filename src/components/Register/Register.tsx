@@ -1,39 +1,69 @@
-import React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Card,
+} from "@mui/material";
 import ConnectingAirportsIcon from "@mui/icons-material/ConnectingAirports";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import { Card } from "@mui/material/";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux";
+import React, { useState } from "react";
+import { registerAction } from "../../redux/slices/AppSlice";
 
-export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+function Register() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case "name":
+        return setName(value);
+
+      case "lastname":
+        return setLastName(value);
+
+      case "username":
+        return setUserName(value);
+
+      case "email":
+        return setEmail(value);
+
+      case "password":
+        return setPassword(value);
+    }
   };
 
+  const goToLogin = () => navigate("/");
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const { meta } = await dispatch(
+      registerAction({ name, lastname, username, email, password })
+    );
+
+    if (meta.requestStatus === "fulfilled") {
+      navigate("/Vacations");
+    }
+  };
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        backgroundImage:
-          "url(/images/kda-league-of-legends-neon-smoke-black-background-cosplay-1920x1080-300.jpg)",
-        backgroundRepeat: "no-repeat",
-        backgroundColor: (t) =>
-          t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+
         height: "100vh",
       }}
     >
@@ -44,46 +74,84 @@ export default function SignUp() {
         Sign up
       </Typography>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-        <Grid container spacing={2} component={Card}>
-          <Grid item xs={12} sm={6}>
+        <Grid
+          container
+          component={Card}
+          sx={
+            {
+              // backgroundImage:
+              //   "url(/images/kda-league-of-legends-neon-smoke-black-background-cosplay-1920x1080-300.jpg)",
+              // backgroundRepeat: "no-repeat",
+              // backgroundSize: "cover",
+              // backgroundPosition: "top",
+            }
+          }
+        >
+          <Grid item xs={12} sm={6} sx={{ p: "24px" }}>
             <TextField
+              color="secondary"
               autoComplete="given-name"
-              name="firstName"
+              name="name"
               required
               fullWidth
               id="firstName"
               label="First Name"
               autoFocus
+              value={name}
+              onChange={handleInputChange}
+              // inputProps={{ sx: { color: "secondary.contrastText" } }}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} sx={{ p: "24px" }}>
             <TextField
               required
+              color="secondary"
               fullWidth
               id="lastName"
               label="Last Name"
-              name="lastName"
+              name="lastname"
+              value={lastname}
+              onChange={handleInputChange}
               autoComplete="family-name"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ p: "24px" }}>
             <TextField
               required
+              color="secondary"
+              fullWidth
+              id="username"
+              label="User name"
+              name="username"
+              value={username}
+              onChange={handleInputChange}
+              autoComplete="User name"
+            />
+          </Grid>
+          <Grid item xs={12} sx={{ p: "24px" }}>
+            <TextField
+              required
+              color="secondary"
               fullWidth
               id="email"
               label="Email Address"
               name="email"
+              value={email}
+              onChange={handleInputChange}
               autoComplete="email"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ p: "24px" }}>
             <TextField
               required
+              color="secondary"
               fullWidth
               name="password"
               label="Password"
               type="password"
               id="password"
+              value={password}
+              onChange={handleInputChange}
               autoComplete="new-password"
             />
           </Grid>
@@ -98,12 +166,14 @@ export default function SignUp() {
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>
-            <Link href="#" variant="body2">
-              Already have an account? Sign in
-            </Link>
+            <Button variant="text" onClick={goToLogin}>
+              Sign in
+            </Button>
           </Grid>
         </Grid>
       </Box>
     </Box>
   );
 }
+
+export default Register;

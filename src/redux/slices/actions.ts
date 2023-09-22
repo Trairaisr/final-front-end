@@ -9,3 +9,25 @@ export async function login(username: string, password: string) {
     data: { username, password },
   });
 }
+
+export async function register(
+  name: string,
+  lastname: string,
+  username: string,
+  email: string,
+  password: string
+) {
+  return await axios({
+    method: "POST",
+    url: `${MAIN_URL}/users/register`,
+    data: { name, lastname, username, email, password },
+  });
+}
+
+export async function getVacations(
+) {
+  return await axios({
+    method: "GET",
+    url: `${MAIN_URL}/vacations`,
+  });
+}
