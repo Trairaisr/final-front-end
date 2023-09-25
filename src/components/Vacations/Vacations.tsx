@@ -38,82 +38,114 @@ export default function Vacations() {
     <main>
       <Box
         sx={{
-          bgcolor: "background.paper",
-          pt: 8,
-          pb: 6,
+          backgroundImage:
+            "url(/images/pexels-asad-photo-maldives-1024989.jpg)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
         }}
       >
-        <Container maxWidth="xl">
-          <Typography
-            component="h1"
-            variant="h2"
-            align="center"
-            color="text.primary"
-            gutterBottom
-          >
-            Album layout
-          </Typography>
-          <Typography
-            variant="h5"
-            align="center"
-            color="text.secondary"
-            paragraph
-          >
-            Something short and leading about the collection below—its contents,
-            the creator, etc. Make it short and sweet, but not too short so
-            folks don&apos;t simply skip over it entirely.
-          </Typography>
-          <Stack
-            sx={{ pt: 4 }}
-            direction="row"
-            spacing={2}
-            justifyContent="center"
-          >
-            <Button variant="contained">Main call to action</Button>
-            <Button variant="outlined">Secondary action</Button>
-          </Stack>
+        <Box
+          sx={{
+            pt: 8,
+            pb: 6,
+          }}
+        >
+          <Container maxWidth="xl">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Welcome to travel IL
+            </Typography>
+            <Typography
+              variant="h5"
+              align="center"
+              color="text.secondary"
+              paragraph
+            >
+              your next flight starts on this ground
+            </Typography>
+            <Stack
+              sx={{ pt: 4 }}
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+            >
+              <Button variant="outlined">Sort by followed</Button>
+              <Button variant="outlined">Sort by date</Button>
+            </Stack>
+          </Container>
+        </Box>
+        <Container sx={{ py: 1 }} maxWidth="xl">
+          <Grid container spacing={8}>
+            {vacations.map((vacation) => (
+              <Grid item key={vacation.id} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    border: "0.5px solid black",
+                    bgcolor: "test.main",
+                  }}
+                >
+                  <CardMedia
+                    component="div"
+                    sx={{
+                      pt: "56.25%",
+                    }}
+                    image={vacation.image}
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      {vacation.destination}
+                    </Typography>
+                    <Typography sx={{ border: "5px solid lightblue" }}>
+                      <Typography sx={{ margin: "5px", fontWeight: "bold" }}>
+                        {moment(vacation.startDate).format("DD.MM.YYYY")} -{" "}
+                        {moment(vacation.endDate).format("DD.MM.YYYY ")}
+                      </Typography>
+                    </Typography>
+                    <Typography
+                      marginTop={"10px"}
+                      padding={"5px"}
+                      sx={{
+                        height: "115px",
+                        overflow: "scroll",
+                        border: "5px solid lightblue",
+                      }}
+                    >
+                      A little bit about: {vacation.destination} -{" "}
+                      {vacation.description}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        marginTop: "45px",
+                        color: "test.secondary",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Only: {vacation.price}$
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="medium">Follow</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Container>
       </Box>
-      <Container sx={{ py: 8 }} maxWidth="xl">
-        {/* End hero unit */}
-        <Grid container spacing={4}>
-          {vacations.map((vacation) => (
-            <Grid item key={vacation.id} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <CardMedia
-                  component="div"
-                  sx={{
-                    // 16:9
-                    pt: "56.25%",
-                  }}
-                  image={vacation.image}
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {vacation.destination}
-                  </Typography>
-                  <Typography sx={{height:"100px", overflow:"scroll"}}>
-                    A little bit about: {vacation.destination}
-                    {vacation.description}
-                  </Typography>
-                  <Typography sx={{margin:"5px"}}>{moment(vacation.startDate).format('DD/MM/YYYY HH:mm')}</Typography>
-                  <Typography sx={{margin:"5px"}}>{moment(vacation.endDate).format('DD/MM/YYYY HH:mm')}</Typography>
-                  <Typography sx={{margin:"5px"}}>{vacation.price}$</Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="medium">Like</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
     </main>
   );
 }

@@ -1,10 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
-import { MAIN_URL, getVacations, login, register } from "./actions";
+import {
+  MAIN_URL,
+  getVacations,
+  login,
+  register,
+  addVacation,
+  // ,  getAdminVacations
+} from "./actions";
 import { isAxiosError } from "axios";
 
 interface Vacation {
-  id:number;
+  id: number;
   destination: string;
   description: string;
   image: string;
@@ -105,6 +112,58 @@ export const getVacationsAction = createAsyncThunk(
   }
 );
 
+export const getAdminVacationsAction = createAsyncThunk(
+  `${MAIN_URL}/users/adminPage`,
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getVacations();
+
+      return response.data;
+    } catch (error) {
+      if (isAxiosError(error)) return rejectWithValue(error.response!.data);
+      else rejectWithValue(error.message);
+    }
+  }
+);
+
+export const addVacationAction = createAsyncThunk(
+  `${MAIN_URL}/users/addVacation`,
+  async (
+    {
+      destination,
+      description,
+      image,
+      startDate,
+      endDate,
+      price,
+    }: {
+      destination: string;
+      description: string;
+      image: string;
+      startDate: any;
+      endDate: any;
+      price: any;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await addVacation(
+        destination,
+        description,
+        image,
+        startDate,
+        endDate,
+        price
+      );
+
+      return response.data;
+    } catch (error) {
+      if (isAxiosError(error)) return rejectWithValue(error.response!.data);
+      else rejectWithValue(error.message);
+    }
+  }
+);
+
 export const appSlice = createSlice({
   name: "app",
   initialState,
@@ -121,6 +180,7 @@ export const appSlice = createSlice({
       state.isLoggedIn = true;
       state.userInfo = payload.userInfo;
       localStorage.setItem("token", payload.token);
+      console.log(payload.userInfo.userType, "hey hey");
     });
     builder.addCase(loginAction.rejected, (state, { payload }) => {
       console.log(payload);
@@ -142,13 +202,42 @@ export const appSlice = createSlice({
       console.log("loading");
     });
     builder.addCase(getVacationsAction.fulfilled, (state, { payload }) => {
-     state.vacations=payload!.vacations
+      state.vacations = payload!.vacations;
       console.log("vacations pulled successfully ");
     });
     builder.addCase(getVacationsAction.rejected, (state, { payload }) => {
       console.log(payload);
       console.log("Count pull vacations ");
     });
+    // ________________ getting vacation for admin
+    builder.addCase(getAdminVacationsAction.pending, (state) => {
+      console.log("loading");
+    });
+    builder.addCase(getAdminVacationsAction.fulfilled, (state, { payload }) => {
+      state.isLoggedIn = true;
+      state.userInfo = payload!.userInfo;
+      localStorage.setItem("token", payload!.token);
+      state.vacations = payload!.vacations;
+      console.log("vacations pulled successfully ");
+    });
+    builder.addCase(getAdminVacationsAction.rejected, (state, { payload }) => {
+      console.log(payload);
+      console.log("Count pull vacations ");
+    });
+    // ________________ getting vacation for admin
+
+    // ________________ adding vacation
+    builder.addCase(addVacationAction.pending, (state) => {
+      console.log("loading");
+    });
+    builder.addCase(addVacationAction.fulfilled, (state, { payload }) => {
+      state.vacations = payload!.vacations;
+    });
+    builder.addCase(addVacationAction.rejected, (state, { payload }) => {
+      console.log(payload);
+      console.log("add vacation didnt success ");
+    });
+    // ________________ adding vacation
   },
 });
 

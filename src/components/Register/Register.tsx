@@ -49,7 +49,7 @@ function Register() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const { meta } = await dispatch(
+    const { meta } = await  dispatch(
       registerAction({ name, lastname, username, email, password })
     );
 
@@ -63,29 +63,27 @@ function Register() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-
         height: "100vh",
+
+        backgroundImage: "url(/images/pexels-photo-1430677.jpeg)",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "top",
       }}
     >
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
         <ConnectingAirportsIcon />
       </Avatar>
-      <Typography component="h1" variant="h5">
+      <Typography component="h1" variant="h5" sx={{color:"test.main"}}>
         Sign up
       </Typography>
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 5 }}>
         <Grid
           container
           component={Card}
-          sx={
-            {
-              // backgroundImage:
-              //   "url(/images/kda-league-of-legends-neon-smoke-black-background-cosplay-1920x1080-300.jpg)",
-              // backgroundRepeat: "no-repeat",
-              // backgroundSize: "cover",
-              // backgroundPosition: "top",
-            }
-          }
+          sx={{
+            bgcolor: "test.main",
+          }}
         >
           <Grid item xs={12} sm={6} sx={{ p: "24px" }}>
             <TextField
@@ -99,7 +97,7 @@ function Register() {
               autoFocus
               value={name}
               onChange={handleInputChange}
-              // inputProps={{ sx: { color: "secondary.contrastText" } }}
+              inputProps={{ sx: { color: "test" } }}
             />
           </Grid>
           <Grid item xs={12} sm={6} sx={{ p: "24px" }}>
@@ -164,9 +162,17 @@ function Register() {
         >
           Sign Up
         </Button>
-        <Grid container justifyContent="flex-end">
+        <Grid container>
           <Grid item>
-            <Button variant="text" onClick={goToLogin}>
+            <Button
+              variant="text"
+              onClick={goToLogin}
+              sx={{
+                mt: 3,
+                mb: 2,
+                bgcolor: "test.main",
+              }}
+            >
               Sign in
             </Button>
           </Grid>

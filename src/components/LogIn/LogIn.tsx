@@ -13,6 +13,7 @@ import { useAppDispatch } from "../../redux";
 import { loginAction } from "../../redux/slices/AppSlice";
 import { useNavigate } from "react-router-dom";
 
+
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ const Login = () => {
     switch (name) {
       case "username":
         return setUsername(value);
-
       case "password":
         return setPassword(value);
     }
@@ -37,8 +37,10 @@ const Login = () => {
 
     const { meta } = await dispatch(loginAction({ username, password }));
 
+    console.log("התחברת בהצלחה")
+
     if (meta.requestStatus === "fulfilled") {
-      navigate("/Vacations");
+      if (meta) navigate("/AdminPage");
     }
   };
 
@@ -52,7 +54,7 @@ const Login = () => {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: "url(/images/get-jinxed.jpg)",
+          backgroundImage: "url(/images/land.jpeg)",
           backgroundRepeat: "no-repeat",
           backgroundColor: (t) =>
             t.palette.mode === "light"
@@ -63,7 +65,16 @@ const Login = () => {
         }}
       />
 
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={5}
+        component={Paper}
+        elevation={6}
+        square
+        sx={{ bgcolor: "test.main" }}
+      >
         <Box
           sx={{
             my: 8,
@@ -73,6 +84,10 @@ const Login = () => {
             alignItems: "center",
           }}
         >
+          <Typography component="h4" variant="h6">
+            Welcomt to travel-IL
+          </Typography>
+
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <FlightTakeoffOutlined />
           </Avatar>

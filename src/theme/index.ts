@@ -6,13 +6,18 @@ export const theme = createTheme({
       main: "#000",
     },
     secondary: {
-      main: "#fe2785",
+      main: "#23a8ea",
       contrastText: "#fff",
     },
     //@ts-ignore
     test: {
-      main: "#02caea",
+      main: "#f2efe7",
+      secondary: "#4a6d",
     },
+    dates:{
+      starts:"#37FE23"
+      ,ends:"#DF5D67"
+    }
   },
 
 });
